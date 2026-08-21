@@ -1,27 +1,25 @@
-import Nav from "../components/Nav";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { getStudents } from "../Services/studentsService";
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import StundentTables from '../components/StundentTables'
 
 function Students() {
   return (
-    <div className="min-h-screen flex flex-col justify-between">
-      <header>
-        <Nav />
-      </header>
-      
-      <main className="flex-grow">
+    <div className="flex-1 flex flex-col justify-between min-h-screen">
+      <div>
         <Header 
-          title="Students" 
-          description="Gestión y lista de estudiantes" 
+          title="Estudiantes" 
+          description="Gestión de estudiantes registrados" 
           txtButton="Nuevo Estudiante" 
         />
-        {/* Aquí puedes agregar la tabla o contenido de los estudiantes */}
-      </main>
+
+        <div className="p-6">
+          <StundentTables />
+        </div>
+      </div>
 
       <Footer />
     </div>
-  );
+  )
 }
 
-export default Students;
+export default Students
