@@ -1,60 +1,73 @@
-import { useEffect, useState } from 'react'
-import { supabase } from "../config/supabase";
-import StatCard from '../components/StatCard'
+import { useEffect, useState } from 'react';
+import StatCard from '../components/StatCard';
+import { supabase } from '../config/supabase'; 
+import Footer from '../components/Footer';
 
 function Dashboard() {
-  const [stats, setStats] = useState({
+  const [counts, setCounts] = useState({
     students: 0,
     courses: 0,
     enrollments: 0,
-  })
-  const [loading, setLoading] = useState(true)
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchStats() {
-      const { count: studentsCount, error: studentsError } = await supabase
-        .from('Table_Student')
-        .select('*', { count: 'exact', head: true })
+    async function fetchCounts() {
+      // 1. Contar estudiantes
+      const { count: studentCount } = await supabase
+        .from('Student')
+        .select('*', { count: 'exact', head: true });
 
-      if (studentsError) console.log('ERROR STUDENTS:', studentsError)
+      // 2. Contar cursos
+      const { count: courseCount } = await supabase
+        .from('course')
+        .select('*', { count: 'exact', head: true });
 
-      const { count: coursesCount } = await supabase
-        .from('Course')
-        .select('*', { count: 'exact', head: true })
-
-      const { count: enrollmentsCount } = await supabase
+      // 3. Contar matrículas
+      const { count: enrollmentCount } = await supabase
         .from('enrollment')
-        .select('*', { count: 'exact', head: true })
+        .select('*', { count: 'exact', head: true });
 
-      setStats({
-        students: studentsCount ?? 0,
-        courses: coursesCount ?? 0,
-        enrollments: enrollmentsCount ?? 0,
-      })
-      setLoading(false)
+      setCounts({
+        students: studentCount || 0,
+        courses: courseCount || 0,
+        enrollments: enrollmentCount || 0,
+      });
+
+      setLoading(false);
     }
 
-    fetchStats()
-  }, [])
+    fetchCounts();
+  }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-      <p className="text-gray-500 mt-1">
-        Bienvenido al Sistema de Gestión de Cursos
-      </p>
+    <div className="p-6 flex flex-col justify-between min-h-[calc(100vh-2rem)]">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+        <p className="text-gray-500 mt-1">
+          Bienvenido al Sistema de Gestión de Cursos
+        </p>
 
-      {loading ? (
-        <p className="text-gray-400 mt-6">Cargando datos...</p>
-      ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-          <StatCard title="Students" total={stats.students} />
-          <StatCard title="Courses" total={stats.courses} />
-          <StatCard title="Enrollments" total={stats.enrollments} />
+          <StatCard 
+            title="Students" 
+            total={loading ? "..." : counts.students} 
+          />
+          <StatCard 
+            title="Courses" 
+            total={loading ? "..." : counts.courses} 
+          />
+          <StatCard 
+            title="Enrollments" 
+            total={loading ? "..." : counts.enrollments} 
+          />
         </div>
-      )}
+      </div>
+
+      {/* Footer agregado al final de la página */}
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;
