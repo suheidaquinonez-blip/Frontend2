@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "../layout/MainLayout"; // O LayoutPrueba según el nombre de tu archivo layout
 import Dashboard from "../pages/Dashboard";
@@ -19,3 +20,16 @@ function AppRoutes() {
 }
 
 export default AppRoutes;
+=======
+import { Routes } from "react-router-dom";
+
+function AppRoutes() {
+    return (
+      <Routes>
+
+     </Routes>
+    );
+}
+
+export default App;
+>>>>>>> main

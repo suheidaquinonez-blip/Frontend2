@@ -22,7 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+<<<<<<< HEAD
 *.zip
 .env
 
 *.zip
+=======
+*.zip
+>>>>>>> main
