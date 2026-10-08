@@ -8,12 +8,13 @@ import Enrollments from "../pages/Enrollments";
 function AppRoutes() {
   return (
     <MainLayout>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/students" element={<Students />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/enrollments" element={<Enrollments />} />
-      </Routes>
+  <Routes>
+  <Route path="/" element={<Dashboard />} />
+  <Route path="/dashboard" element={<Dashboard />} />
+  <Route path="/students" element={<Students />} />
+  <Route path="/courses" element={<Courses />} />
+  <Route path="/enrollments" element={<Enrollments />} />
+</Routes>
     </MainLayout>
   );
 }

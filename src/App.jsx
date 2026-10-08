@@ -14,6 +14,7 @@ function App() {
         <main className="flex-1 bg-gray-50 min-h-screen">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/students" element={<Students />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/enrollments" element={<Enrollments />} />

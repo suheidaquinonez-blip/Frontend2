@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import StatCard from '../components/StatCard';
-import { supabase } from '../config/supabase'; 
+import { supabase } from '../config/supabase';
 import Footer from '../components/Footer';
 
 function Dashboard() {
@@ -14,19 +14,25 @@ function Dashboard() {
   useEffect(() => {
     async function fetchCounts() {
       // 1. Contar estudiantes
-      const { count: studentCount } = await supabase
-        .from('Student')
+      const { count: studentCount, error: studentError } = await supabase
+        .from('Table_Student')
         .select('*', { count: 'exact', head: true });
 
+      if (studentError) console.error('Error al contar estudiantes:', studentError.message);
+
       // 2. Contar cursos
-      const { count: courseCount } = await supabase
+      const { count: courseCount, error: courseError } = await supabase
         .from('course')
         .select('*', { count: 'exact', head: true });
 
+      if (courseError) console.error('Error al contar cursos:', courseError.message);
+
       // 3. Contar matrículas
-      const { count: enrollmentCount } = await supabase
+      const { count: enrollmentCount, error: enrollmentError } = await supabase
         .from('enrollment')
         .select('*', { count: 'exact', head: true });
+
+      if (enrollmentError) console.error('Error al contar matrículas:', enrollmentError.message);
 
       setCounts({
         students: studentCount || 0,
@@ -49,17 +55,17 @@ function Dashboard() {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-          <StatCard 
-            title="Students" 
-            total={loading ? "..." : counts.students} 
+          <StatCard
+            title="Students"
+            total={loading ? "..." : counts.students}
           />
-          <StatCard 
-            title="Courses" 
-            total={loading ? "..." : counts.courses} 
+          <StatCard
+            title="Courses"
+            total={loading ? "..." : counts.courses}
           />
-          <StatCard 
-            title="Enrollments" 
-            total={loading ? "..." : counts.enrollments} 
+          <StatCard
+            title="Enrollments"
+            total={loading ? "..." : counts.enrollments}
           />
         </div>
       </div>
